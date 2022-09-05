@@ -7,8 +7,8 @@ import pygame
 
 pygame.init()
 
-screen = pygame.display.set_mode((600, 600))
-pygame.display.set_caption("Snake")
+screen = pygame.display.set_mode((1000, 1000))
+pygame.display.set_caption("Jump and Run")
 
 running = True
 clock = pygame.time.Clock()
@@ -18,6 +18,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    screen.fill((255,255,255))
     pygame.display.update()
     clock.tick(60)
 
