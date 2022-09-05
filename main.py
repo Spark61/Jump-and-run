@@ -24,12 +24,12 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_a:
+            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 player.walk_x(-1)
-            elif event.key == pygame.K_d:
+            elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 player.walk_x(1)
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_a or event.key == pygame.K_d:
+            if event.key == pygame.K_a or event.key == pygame.K_d or event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 player.walk_x(0)
 
     screen.fill((255, 255, 255))

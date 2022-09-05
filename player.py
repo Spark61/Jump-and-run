@@ -7,7 +7,7 @@ class Player(sprite.Sprite):
         sprite.Sprite.__init__(self)
         self.walk_textures = []
         self.run_textures = []
-        self.walk_texture_width = 16
+        self.walk_texture_width = 17
         self.run_texture_width = 20
         self.texture_height = 16
 
@@ -30,15 +30,19 @@ class Player(sprite.Sprite):
 
         self.speed = 10
         self.posX = 200
-        self.posY = 200
+        self.posY = 400
 
-        self.jumping = 0
+        self.jumping = -1
         self.walk = 0
+        self.left = True
 
         self.run_animation_index = 1
 
     def walk_x(self, x):
         self.walk = x
+
+        if x != 0:
+            self.left = x < 0
 
     def jump(self):
         self.jumping = 10
@@ -50,16 +54,22 @@ class Player(sprite.Sprite):
             if self.run_animation_index >= 30:
                 self.run_animation_index = 0
 
-            self.image = self.run_textures[self.run_animation_index // 5]
-
-            if self.walk < 0:
-                self.image = pygame.transform.flip(self.image, True, False)
+            if self.jumping != -1:
+                pass
+            else:
+                self.image = self.run_textures[self.run_animation_index // 5]
 
         else:
             self.image = self.walk_textures[0]
 
+        if self.left:
+            self.image = pygame.transform.flip(self.image, True, False)
+
     def update_position(self):
-        self.posX += self.walk
+        self.posX += self.walk * self.speed
+
+        self.rect.x = self.posX
+        self.rect.y = self.posY
 
     def update(self):
         self.update_position()
