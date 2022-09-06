@@ -5,6 +5,7 @@
 
 import pygame
 
+from platform import Platform
 from player import Player
 
 pygame.init()
@@ -18,6 +19,10 @@ clock = pygame.time.Clock()
 player = Player()
 player_group = pygame.sprite.GroupSingle()
 player_group.add(player)
+
+platform = Platform(100, 100, 4, 4)
+platform_group = pygame.sprite.Group()
+platform_group.add(platform)
 
 while running:
     for event in pygame.event.get():
@@ -36,6 +41,9 @@ while running:
 
     player_group.update()
     player_group.draw(screen)
+
+    platform_group.update(screen)
+    platform_group.draw(screen)
 
     pygame.display.update()
     clock.tick(60)
