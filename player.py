@@ -130,7 +130,6 @@ class Player(sprite.Sprite):
 
             elif self.is_gravity_active(screen, platform, map.platform_group,
                                         new_pos_x):  # springt nicht, ist aber auch auf keinen block drauf
-                pygame.draw.rect(screen, (0, 0, 0), platform.rect_up_upper)
                 self.posY += 5
 
             if is_collide_down(rect, platform):  # unten block

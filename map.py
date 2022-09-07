@@ -40,3 +40,10 @@ class Map1:
 
         self.platform_group.update(screen, player_pos_x)
         self.platform_group.draw(screen)
+
+        water = self.tiles["waterTop"]
+        water_width = water.get_width()
+        water_height = screen.get_height() - water.get_height()
+
+        for i in range(player_pos_x + screen.get_width() // water_width + 1):
+            screen.blit(water, (i * water_width - player_pos_x, water_height))
