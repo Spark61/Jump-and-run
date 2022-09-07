@@ -35,7 +35,7 @@ class Platform(sprite.Sprite):
         self.height = self.texture_height * height
 
         self.blocks = []
-        self.rect = pygame.Rect(start_x, start_y, self.width, self.height)
+        self.update_rects(0)
 
         self.rect.x = start_x
         self.rect.y = start_y
@@ -119,8 +119,16 @@ class Platform(sprite.Sprite):
                             self.tiles["wallMiddle"]
                         ])
 
-    def update(self, screen, cam_pos_x):
+    def update_rects(self, cam_pos_x):
         self.rect = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.width, self.height)
+
+        self.rect_up = pygame.Rect(self.start_x - cam_pos_x, self.start_y - 1, self.width, 1)
+        self.rect_down = pygame.Rect(self.start_x - cam_pos_x, self.start_y + self.height - 1, self.width, 1)
+        self.rect_left = pygame.Rect(self.start_x - 1 - cam_pos_x, self.start_y, 2, self.height)
+        self.rect_right = pygame.Rect(self.start_x + self.width - 1 - cam_pos_x, self.start_y, 1, self.height)
+
+    def update(self, screen, cam_pos_x):
+        self.update_rects(cam_pos_x)
 
         for block in self.blocks:
             x, y, texture = block

@@ -21,7 +21,7 @@ player_group = pygame.sprite.GroupSingle()
 player_group.add(player)
 
 maps = [Map1()]
-map = 0
+map_number = 0
 
 while running:
     for event in pygame.event.get():
@@ -40,9 +40,10 @@ while running:
 
     screen.fill((255, 255, 255))
 
-    player_group.update(screen)
+    map = maps[map_number]
+    player_group.update(screen, map)
 
-    maps[map].update(screen, player.posX)
+    map.update(screen, player.posX)
 
     player_group.draw(screen)
 

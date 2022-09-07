@@ -69,10 +69,24 @@ class Player(sprite.Sprite):
         if self.left:
             self.image = pygame.transform.flip(self.image, True, False)
 
-    def update_position(self, screen):
-        self.posX += self.walk * self.speed
-        if self.posX <= 0:
-            self.posX = 0
+    def update_position(self, screen, map):
+        new_pos_x = self.walk * self.speed
+        if new_pos_x <= 0:
+            new_pos_x = 0
+
+        rect = pygame.Rect(self.posX + new_pos_x, self.rect.y, self.image.get_width(), self.image.get_height())
+
+        for platform in map.platform_group:
+            if rect.colliderect(platform.rect_up):
+                print("up")
+            if rect.colliderect(platform.rect_down):
+                print("down")
+            if rect.colliderect(platform.rect_left):
+                print("left")
+            if rect.colliderect(platform.rect_right):
+                print("right")
+
+        self.posX += new_pos_x
 
         self.rect.x = screen.get_width() / 2
 
@@ -93,6 +107,7 @@ class Player(sprite.Sprite):
         else:
             self.rect.y = self.posY
 
-    def update(self, screen):
-        self.update_position(screen)
+    def update(self, screen, map):
+
+        self.update_position(screen, map)
         self.update_image()
