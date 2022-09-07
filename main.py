@@ -41,9 +41,10 @@ while running:
     screen.fill((255, 255, 255))
 
     player_group.update()
-    player_group.draw(screen)
 
-    maps[map].update(screen)
+    maps[map].update(screen, player.cam_x)
+
+    player_group.draw(screen)
 
     pygame.display.update()
     clock.tick(60)

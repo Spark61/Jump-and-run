@@ -31,6 +31,7 @@ class Player(sprite.Sprite):
         self.speed = 10
         self.posX = 200
         self.posY = 400
+        self.cam_x = self.posX
 
         self.jumping = -1
         self.walk = 0

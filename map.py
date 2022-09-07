@@ -26,14 +26,14 @@ class Map1:
         print(self.tiles)
 
         self.cam_pos_x = 0
-        self.positions = [(1, 1, 3, 1)]
+        self.positions = [(1, 1, 30, 1), (100, 1, 30, 2)]
         self.platform_group = pygame.sprite.Group()
 
         for position in self.positions:
             x, y, width, height = position
             self.platform_group.add(Platform(x, y, width, height))
 
-    def update(self, screen):
+    def update(self, screen, player_cam_x):
         self.cam_pos_x += 1
 
         self.platform_group.update(screen, self.cam_pos_x)

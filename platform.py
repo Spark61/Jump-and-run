@@ -26,6 +26,9 @@ class Platform(sprite.Sprite):
         self.texture_width = self.image.get_width()
         self.texture_height = self.image.get_height()
 
+        start_x = start_x * self.texture_width
+        start_y = start_y * self.texture_height
+
         self.start_x = start_x
         self.start_y = start_y
         self.width = self.texture_width * width
@@ -118,11 +121,6 @@ class Platform(sprite.Sprite):
 
     def update(self, screen, cam_pos_x):
         self.rect = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.width, self.height)
-
-        screen.fill((255, 255, 255))
-
-        print(self.blocks)
-        print(len(self.blocks))
 
         for block in self.blocks:
             x, y, texture = block
