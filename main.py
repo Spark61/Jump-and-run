@@ -5,7 +5,7 @@
 
 import pygame
 
-from platform import Platform
+from map import Map1
 from player import Player
 
 pygame.init()
@@ -20,9 +20,8 @@ player = Player()
 player_group = pygame.sprite.GroupSingle()
 player_group.add(player)
 
-platform = Platform(100, 100, 4, 4)
-platform_group = pygame.sprite.Group()
-platform_group.add(platform)
+maps = [Map1()]
+map = 0
 
 while running:
     for event in pygame.event.get():
@@ -33,6 +32,8 @@ while running:
                 player.walk_x(-1)
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 player.walk_x(1)
+            elif event.key == pygame.K_SPACE:
+                player.jump()
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a or event.key == pygame.K_d or event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 player.walk_x(0)
@@ -42,8 +43,7 @@ while running:
     player_group.update()
     player_group.draw(screen)
 
-    platform_group.update(screen)
-    platform_group.draw(screen)
+    maps[map].update(screen)
 
     pygame.display.update()
     clock.tick(60)

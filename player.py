@@ -45,6 +45,9 @@ class Player(sprite.Sprite):
             self.left = x < 0
 
     def jump(self):
+        if self.jumping != -1:
+            return
+
         self.jumping = 10
 
     def update_image(self):

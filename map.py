@@ -7,10 +7,11 @@ import os
 
 import pygame
 
+from platform import Platform
 
-class Map(pygame.sprite.Sprite):
+
+class Map1:
     def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
 
         self.tiles = {}
 
@@ -24,4 +25,16 @@ class Map(pygame.sprite.Sprite):
 
         print(self.tiles)
 
-        self.rect = self.image.get_rect()
+        self.cam_pos_x = 0
+        self.positions = [(1, 1, 3, 1)]
+        self.platform_group = pygame.sprite.Group()
+
+        for position in self.positions:
+            x, y, width, height = position
+            self.platform_group.add(Platform(x, y, width, height))
+
+    def update(self, screen):
+        self.cam_pos_x += 1
+
+        self.platform_group.update(screen, self.cam_pos_x)
+        self.platform_group.draw(screen)
