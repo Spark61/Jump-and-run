@@ -122,7 +122,9 @@ class Platform(sprite.Sprite):
     def update_rects(self, cam_pos_x):
         self.rect = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.width, self.height)
 
-        self.rect_up = pygame.Rect(self.start_x - cam_pos_x, self.start_y - 1, self.width, 1)
+        self.rect_up = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.width, 1)
+        self.rect_up2 = pygame.Rect(self.start_x - cam_pos_x, self.start_y - 5, self.width, 10)
+        self.rect_up_upper = pygame.Rect(self.start_x - cam_pos_x, self.start_y - 1, self.width, 1)
         self.rect_down = pygame.Rect(self.start_x - cam_pos_x, self.start_y + self.height - 1, self.width, 1)
         self.rect_left = pygame.Rect(self.start_x - 1 - cam_pos_x, self.start_y, 2, self.height)
         self.rect_right = pygame.Rect(self.start_x + self.width - 1 - cam_pos_x, self.start_y, 1, self.height)
