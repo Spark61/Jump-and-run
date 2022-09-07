@@ -2,6 +2,30 @@ import pygame
 from pygame import sprite
 
 
+def is_collide_down(rect, platform):
+    return rect.colliderect(platform.rect_down)
+
+
+def is_collide_top(rect, platform):
+    return rect.colliderect(platform.rect_up)
+
+
+def is_collide_right(rect, platform):
+    return rect.colliderect(platform.rect_right)
+
+
+def is_collide_left(rect, platform):
+    return rect.colliderect(platform.rect_left)
+
+
+def is_rect_stand_on_block(platform_group, under_player_rect):
+    for platform in platform_group:
+        if under_player_rect.colliderect(platform.rect_up_upper):
+            return True
+
+    return False
+
+
 class Player(sprite.Sprite):
     def __init__(self):
         sprite.Sprite.__init__(self)
@@ -55,6 +79,26 @@ class Player(sprite.Sprite):
         self.falling = False
         self.jump_index = 0
 
+    def is_gravity_active(self, screen, platform, platform_group, new_pos_x):
+        if self.jumping:  # wenn er Springt, dann wird durch den jump_index, die Schwerkraft geregelt
+            return False
+
+        if self.rect.y >= platform.rect_up.y:  # ist der block nicht unter dem Player
+            return False
+
+        under_player_rect = pygame.Rect(self.rect.x + new_pos_x - 1, self.rect.y + self.rect.height + 2,
+                                        self.rect.width - 1, 1)
+
+        if under_player_rect.colliderect(platform.rect_up):  # wenn er auf einen
+            return False
+
+        if not is_collide_top(pygame.Rect(self.rect.x + new_pos_x - 1, 0,
+                                          self.rect.width - 1,
+                                          screen.get_height()), platform):
+            return False
+
+        return not is_rect_stand_on_block(platform_group, under_player_rect)
+
     def update_image(self):
         if self.walk != 0:
             self.run_animation_index += 1
@@ -77,9 +121,9 @@ class Player(sprite.Sprite):
 
         for platform in map.platform_group:
 
-            if self.is_collide_top(rect, platform) and \
-                    not self.is_collide_left(rect, platform) and \
-                    not self.is_collide_right(rect, platform):  # block oben
+            if is_collide_top(rect, platform) and \
+                    not is_collide_left(rect, platform) and \
+                    not is_collide_right(rect, platform):  # block oben
                 self.falling = False
                 self.jumping = False
                 self.posY = platform.rect_up.y - platform.rect_up.height - self.rect.height
@@ -89,13 +133,13 @@ class Player(sprite.Sprite):
                 pygame.draw.rect(screen, (0, 0, 0), platform.rect_up_upper)
                 self.posY += 5
 
-            if self.is_collide_down(rect, platform):  # unten block
+            if is_collide_down(rect, platform):  # unten block
                 self.falling = True
 
-            if self.is_collide_left(rect, platform) and not self.is_collide_down(rect, platform):  # links blockd
+            if is_collide_left(rect, platform) and not is_collide_down(rect, platform):  # links blockd
                 new_pos_x = platform.rect_left.x - (self.rect.x + self.rect.width)
 
-            if self.is_collide_right(rect, platform) and not self.is_collide_down(rect, platform):  # rechts block
+            if is_collide_right(rect, platform) and not is_collide_down(rect, platform):  # rechts block
                 new_pos_x = platform.rect_right.x - self.rect.x
 
         self.posX += new_pos_x
@@ -119,47 +163,6 @@ class Player(sprite.Sprite):
         else:
             self.rect.y = self.posY
 
-    def is_gravity_active(self, screen, platform, platform_group, new_pos_x):
-        if self.jumping:  # wenn er Springt, dann wird durch den jump_index, die Schwerkraft geregelt
-            return False
-
-        if self.rect.y >= platform.rect_up.y:  # ist der block nicht unter dem Player
-            return False
-
-        under_player_rect = pygame.Rect(self.rect.x + new_pos_x - 1, self.rect.y + self.rect.height + 2,
-                                        self.rect.width - 1, 1)
-
-        if under_player_rect.colliderect(platform.rect_up):  # wenn er auf einen
-            return False
-
-        if not pygame.Rect(self.rect.x + new_pos_x - 1, 0,
-                           self.rect.width - 1,
-                           screen.get_height()).colliderect(
-            platform.rect_up):
-            return False
-
-        return not self.is_rect_stand_on_block(platform_group, under_player_rect)
-
-    def is_collide_left(self, rect, platform):
-        return rect.colliderect(platform.rect_left)
-
-    def is_collide_right(self, rect, platform):
-        return rect.colliderect(platform.rect_right)
-
-    def is_collide_top(self, rect, platform):
-        return rect.colliderect(platform.rect_up)
-
-    def is_collide_down(self, rect, platform):
-        return rect.colliderect(platform.rect_down)
-
-    def is_rect_stand_on_block(self, platform_group, under_player_rect):
-        for platform2 in platform_group:
-            if under_player_rect.colliderect(platform2.rect_up_upper):
-                return True
-
-        return False
-
     def update(self, screen, map):
-
         self.update_position(screen, map)
         self.update_image()
