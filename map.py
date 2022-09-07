@@ -33,8 +33,9 @@ class Map1:
             x, y, width, height = position
             self.platform_group.add(Platform(x, y, width, height))
 
-    def update(self, screen, player_cam_x):
+    def update(self, screen, player_pos_x):
+
         self.cam_pos_x += 1
 
-        self.platform_group.update(screen, self.cam_pos_x)
+        self.platform_group.update(screen, player_pos_x)
         self.platform_group.draw(screen)

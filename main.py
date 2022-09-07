@@ -40,9 +40,9 @@ while running:
 
     screen.fill((255, 255, 255))
 
-    player_group.update()
+    player_group.update(screen)
 
-    maps[map].update(screen, player.cam_x)
+    maps[map].update(screen, player.posX)
 
     player_group.draw(screen)
 

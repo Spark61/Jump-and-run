@@ -31,13 +31,13 @@ class Player(sprite.Sprite):
         self.speed = 10
         self.posX = 200
         self.posY = 400
-        self.cam_x = self.posX
 
         self.jumping = False
         self.falling = False
         self.jump_index = 0
         self.walk = 0
         self.left = True
+        self.already_left = False
 
         self.run_animation_index = 1
 
@@ -46,6 +46,9 @@ class Player(sprite.Sprite):
 
         if x != 0:
             self.left = x < 0
+
+            if not self.left:
+                self.already_left = False
 
     def jump(self):
         if self.jumping:
@@ -56,6 +59,8 @@ class Player(sprite.Sprite):
         self.jump_index = 0
 
     def update_image(self):
+        print(self.left)
+
         if self.walk != 0:
             self.run_animation_index += 1
 
@@ -70,13 +75,18 @@ class Player(sprite.Sprite):
         else:
             self.image = self.walk_textures[0]
 
-        if self.left:
+        if self.left and not self.already_left:
+            self.already_left = True
             self.image = pygame.transform.flip(self.image, True, False)
 
-    def update_position(self):
+    def update_position(self, screen):
         self.posX += self.walk * self.speed
+        if self.posX <= 0:
+            self.posX = 0
 
-        self.rect.x = self.posX
+        self.rect.x = screen.get_width() / 2
+
+        # self.rect.x = self.posX
 
         if self.jumping:
             if self.falling and self.jump_index <= 0:
@@ -93,6 +103,6 @@ class Player(sprite.Sprite):
         else:
             self.rect.y = self.posY
 
-    def update(self):
-        self.update_position()
+    def update(self, screen):
+        self.update_position(screen)
         self.update_image()
