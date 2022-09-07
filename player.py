@@ -33,7 +33,9 @@ class Player(sprite.Sprite):
         self.posY = 400
         self.cam_x = self.posX
 
-        self.jumping = -1
+        self.jumping = False
+        self.falling = False
+        self.jump_index = 0
         self.walk = 0
         self.left = True
 
@@ -46,10 +48,12 @@ class Player(sprite.Sprite):
             self.left = x < 0
 
     def jump(self):
-        if self.jumping != -1:
+        if self.jumping:
             return
 
-        self.jumping = 10
+        self.jumping = True
+        self.falling = False
+        self.jump_index = 0
 
     def update_image(self):
         if self.walk != 0:
@@ -73,7 +77,21 @@ class Player(sprite.Sprite):
         self.posX += self.walk * self.speed
 
         self.rect.x = self.posX
-        self.rect.y = self.posY
+
+        if self.jumping:
+            if self.falling and self.jump_index <= 0:
+                self.falling = False
+                self.jumping = False
+            elif self.falling:
+                self.jump_index -= 1
+            elif self.jump_index >= 20:
+                self.falling = True
+            else:
+                self.jump_index += 1
+
+            self.rect.y = self.posY + -self.jump_index * 10
+        else:
+            self.rect.y = self.posY
 
     def update(self):
         self.update_position()
