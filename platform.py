@@ -134,3 +134,4 @@ class Platform(sprite.Sprite):
         for block in self.blocks:
             x, y, texture = block
             screen.blit(texture, (x - cam_pos_x, y))
+

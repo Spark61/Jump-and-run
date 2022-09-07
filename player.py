@@ -26,6 +26,15 @@ def is_rect_stand_on_block(platform_group, under_player_rect):
     return False
 
 
+def is_above_water(screen, rect, platform_group):
+    full_height_rect = pygame.Rect(rect.x, 0, rect.width, screen.get_height())
+
+    for platform in platform_group:
+        if full_height_rect.colliderect(platform.rect):
+            return False
+    return True
+
+
 class Player(sprite.Sprite):
     def __init__(self):
         sprite.Sprite.__init__(self)
@@ -51,6 +60,8 @@ class Player(sprite.Sprite):
 
         self.image = self.run_textures[0]
         self.rect = self.image.get_rect()
+
+        self.death = False
 
         self.speed = 10
         self.posX = 200
@@ -141,6 +152,9 @@ class Player(sprite.Sprite):
             if is_collide_right(rect, platform) and not is_collide_down(rect, platform):  # rechts block
                 new_pos_x = platform.rect_right.x - self.rect.x
 
+        if is_above_water(screen, rect, map.platform_group):
+            self.posY += 5
+
         self.posX += new_pos_x
         if self.posX <= 0:
             self.posX = 0
@@ -162,6 +176,18 @@ class Player(sprite.Sprite):
         else:
             self.rect.y = self.posY
 
+    def test_death(self, screen):
+        if self.rect.y >= screen.get_height() - 0:
+            self.death = True
+
     def update(self, screen, map):
-        self.update_position(screen, map)
-        self.update_image()
+        if self.death:
+            my_font = pygame.font.SysFont('Comic Sans MS', 40)
+            text_surface = my_font.render('Du bist gestorben', False, (0, 0, 0))
+
+            screen.blit(text_surface, (82, 150))
+
+        else:
+            self.update_position(screen, map)
+            self.test_death(screen)
+            self.update_image()
