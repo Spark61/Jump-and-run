@@ -40,7 +40,7 @@ class Platform(sprite.Sprite):
         self.rect.x = start_x
         self.rect.y = start_y
 
-        if self.height == 1:
+        if height == 1:
             for x in range(width):
                 if x == 0:  # links
                     self.blocks.append([
@@ -48,7 +48,7 @@ class Platform(sprite.Sprite):
                         self.start_y,
                         self.tiles["floatingLeft"]
                     ])
-                elif x == self.width - 1:  # rechts
+                elif x == width - 1:  # rechts
                     self.blocks.append([
                         self.start_x + self.texture_width * x,
                         self.start_y,
@@ -70,13 +70,13 @@ class Platform(sprite.Sprite):
                             self.start_y + self.texture_height * y,
                             self.tiles["wallTopLeft"]
                         ])
-                    elif x == self.width - 1 and y == 0:  # rechts oben
+                    elif x == width - 1 and y == 0:  # rechts oben
                         self.blocks.append([
                             self.start_x + self.texture_width * x,
                             self.start_y + self.texture_height * y,
                             self.tiles["wallTopRight"]
                         ])
-                    elif x == 0 and y == self.height - 1:  # links unten
+                    elif x == 0 and y == height - 1:  # links unten
                         self.blocks.append([
                             self.start_x + self.texture_width * x,
                             self.start_y + self.texture_height * y,
@@ -88,19 +88,19 @@ class Platform(sprite.Sprite):
                             self.start_y + self.texture_height * y,
                             self.tiles["wallLeft"]
                         ])
-                    elif x == self.width - 1 and y == self.height - 1:  # rechts unten
+                    elif x == width - 1 and y == height - 1:  # rechts unten
                         self.blocks.append([
                             self.start_x + self.texture_width * x,
                             self.start_y + self.texture_height * y,
                             self.tiles["bottomCornerRight"]
                         ])
-                    elif x == self.width - 1:  # rechte Seite
+                    elif x == width - 1:  # rechte Seite
                         self.blocks.append([
                             self.start_x + self.texture_width * x,
                             self.start_y + self.texture_height * y,
                             self.tiles["wallRight"]
                         ])
-                    elif y == self.height - 1:  # untere Seite
+                    elif y == height - 1:  # untere Seite
                         self.blocks.append([
                             self.start_x + self.texture_width * x,
                             self.start_y + self.texture_height * y,
