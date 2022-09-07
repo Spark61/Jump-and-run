@@ -4,21 +4,62 @@ import pygame
 from pygame import sprite
 
 
+def is_right(x, width):
+    return x == width - 1
+
+
+def is_left(x):
+    return x == 0
+
+
+def is_up(y):
+    return y == 0
+
+
+def is_down(y, height):
+    return y == height - 1
+
+
+def is_left_up(x, y):
+    return is_left(x) and is_up(y)
+
+
+def is_right_up(x, y, width):
+    return is_right(x, width) and is_up(y)
+
+
+def is_left_down(x, y, height):
+    return is_left(x) and is_down(y, height)
+
+
+def is_right_down(x, y, width, height):
+    return is_right(x, width) and is_down(y, height)
+
+
+def load_titles(dir_path):
+    tiles = {}
+
+    for path in os.listdir(dir_path):
+        # check if current path is a file
+        if os.path.isfile(os.path.join(dir_path, path)) and path.endswith(".png"):
+            tiles[path.replace(".png", "")] = pygame.transform.scale(
+                pygame.image.load(dir_path + "/" + path).convert_alpha(),
+                (16, 16))
+
+    return tiles
+
+
+def is_small_island(height):
+    return height == 1
+
+
 class Platform(sprite.Sprite):
     def __init__(self, start_x, start_y, width, height):
         sprite.Sprite.__init__(self)
 
-        self.tiles = {}
+        self.tiles = load_titles("img/tiles/")
 
-        dir_path = "img/tiles/"
-
-        for path in os.listdir(dir_path):
-            # check if current path is a file
-            if os.path.isfile(os.path.join(dir_path, path)) and path.endswith(".png"):
-                self.tiles[path.replace(".png", "")] = pygame.transform.scale(
-                    pygame.image.load(dir_path + "/" + path).convert_alpha(),
-                    (16, 16))
-        if height == 1:
+        if is_small_island(height):
             self.image = self.tiles["floatingLeft"]
         else:
             self.image = self.tiles["wallTopLeft"]
@@ -26,112 +67,93 @@ class Platform(sprite.Sprite):
         self.texture_width = self.image.get_width()
         self.texture_height = self.image.get_height()
 
-        start_x = start_x * self.texture_width
-        start_y = start_y * self.texture_height
+        self.full_width = self.texture_width * width
+        self.full_height = self.texture_height * height
 
-        self.start_x = start_x
-        self.start_y = start_y
-        self.width = self.texture_width * width
-        self.height = self.texture_height * height
+        self.start_x = start_x * self.texture_width
+        self.start_y = start_y * self.texture_height
 
         self.blocks = []
-        self.update_rects(0)
 
-        self.rect.x = start_x
-        self.rect.y = start_y
+        # rect
+        self.rect = None
+        self.rect_up = None
+        self.rect_up_upper = None
+        self.rect_down = None
+        self.rect_left = None
+        self.rect_right = None
 
-        if height == 1:
+        self.update_rects(0)  # werden in dieser Methode, auf die tatsächlichen Werte gesetzt
+
+        self.rect.x = self.start_x
+        self.rect.y = self.start_y
+
+        if is_small_island(height):
             for x in range(width):
-                if x == 0:  # links
-                    self.blocks.append([
-                        self.start_x + self.texture_width * x,
-                        self.start_y,
-                        self.tiles["floatingLeft"]
-                    ])
-                elif x == width - 1:  # rechts
-                    self.blocks.append([
-                        self.start_x + self.texture_width * x,
-                        self.start_y,
-                        self.tiles["floatingRight"]
-                    ])
-                else:  # mitte
-                    self.blocks.append([
-                        self.start_x + self.texture_width * x,
-                        self.start_y,
-                        self.tiles["floatingMiddle"]
-                    ])
+                if is_left(x):
+                    title = "floatingLeft"
 
+                elif is_right(x, width):
+                    title = "floatingRight"
+
+                else:
+                    title = "floatingMiddle"
+
+                self.blocks.append([
+                    self.start_x + self.texture_width * x,
+                    self.start_y,
+                    self.tiles[title]
+                ])
         else:
             for x in range(width):
                 for y in range(height):
-                    if x == 0 and y == 0:  # links oben
-                        self.blocks.append([
-                            self.start_x + self.texture_width * x,
-                            self.start_y + self.texture_height * y,
-                            self.tiles["wallTopLeft"]
-                        ])
-                    elif x == width - 1 and y == 0:  # rechts oben
-                        self.blocks.append([
-                            self.start_x + self.texture_width * x,
-                            self.start_y + self.texture_height * y,
-                            self.tiles["wallTopRight"]
-                        ])
-                    elif x == 0 and y == height - 1:  # links unten
-                        self.blocks.append([
-                            self.start_x + self.texture_width * x,
-                            self.start_y + self.texture_height * y,
-                            self.tiles["bottomCornerLeft"]
-                        ])
-                    elif x == 0:  # linke Seite
-                        self.blocks.append([
-                            self.start_x + self.texture_width * x,
-                            self.start_y + self.texture_height * y,
-                            self.tiles["wallLeft"]
-                        ])
-                    elif x == width - 1 and y == height - 1:  # rechts unten
-                        self.blocks.append([
-                            self.start_x + self.texture_width * x,
-                            self.start_y + self.texture_height * y,
-                            self.tiles["bottomCornerRight"]
-                        ])
-                    elif x == width - 1:  # rechte Seite
-                        self.blocks.append([
-                            self.start_x + self.texture_width * x,
-                            self.start_y + self.texture_height * y,
-                            self.tiles["wallRight"]
-                        ])
-                    elif y == height - 1:  # untere Seite
-                        self.blocks.append([
-                            self.start_x + self.texture_width * x,
-                            self.start_y + self.texture_height * y,
-                            self.tiles["bottomMiddle"]
-                        ])
-                    elif y == 0:  # obere Seite
-                        self.blocks.append([
-                            self.start_x + self.texture_width * x,
-                            self.start_y + self.texture_height * y,
-                            self.tiles["wallTopMiddle"]
-                        ])
-                    else:  # mitte
-                        self.blocks.append([
-                            self.start_x + self.texture_width * x,
-                            self.start_y + self.texture_height * y,
-                            self.tiles["wallMiddle"]
-                        ])
+                    if is_left_up(x, y):
+                        title = "wallTopLeft"
+
+                    elif is_right_up(x, y, width):
+                        title = "wallTopRight"
+
+                    elif is_left_down(x, y, height):
+                        title = "bottomCornerLeft"
+
+                    elif is_left(x):
+                        title = "wallLeft"
+
+                    elif is_right_down(x, y, width, height):
+                        title = "bottomCornerRight"
+
+                    elif is_right(x, width):
+                        title = "wallRight"
+
+                    elif is_down(y, height):
+                        title = "bottomMiddle"
+
+                    elif is_up(y):
+                        title = "wallTopMiddle"
+
+                    else:
+                        title = "wallMiddle"
+
+                    self.blocks.append([
+                        self.start_x + self.texture_width * x,
+                        self.start_y + self.texture_height * y,
+                        self.tiles[title]
+                    ])
 
     def update_rects(self, cam_pos_x):
-        self.rect = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.width, self.height)
+        self.rect = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.full_width, self.full_height)
 
-        self.rect_up = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.width, 1)
-        self.rect_up_upper = pygame.Rect(self.start_x - cam_pos_x, self.start_y - 5, self.width, 10)
-        self.rect_down = pygame.Rect(self.start_x - cam_pos_x, self.start_y + self.height - 1, self.width, 1)
-        self.rect_left = pygame.Rect(self.start_x - 1 - cam_pos_x, self.start_y, 2, self.height)
-        self.rect_right = pygame.Rect(self.start_x + self.width - 1 - cam_pos_x, self.start_y, 1, self.height)
+        self.rect_up = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.full_width, 1)
+        self.rect_up_upper = pygame.Rect(self.start_x - cam_pos_x, self.start_y - 5, self.full_width, 10)
+        self.rect_down = pygame.Rect(self.start_x - cam_pos_x, self.start_y + self.full_height - 1, self.full_width, 1)
+        self.rect_left = pygame.Rect(self.start_x - 1 - cam_pos_x, self.start_y, 2, self.full_height)
+        self.rect_right = pygame.Rect(self.start_x + self.full_width - 1 - cam_pos_x, self.start_y, 1, self.full_height)
 
-    def update(self, screen, cam_pos_x):
-        self.update_rects(cam_pos_x)
-
+    def draw_blocks(self, screen, cam_pos_x):
         for block in self.blocks:
             x, y, texture = block
             screen.blit(texture, (x - cam_pos_x, y))
 
+    def update(self, screen, cam_pos_x):
+        self.update_rects(cam_pos_x)
+        self.draw_blocks(screen, cam_pos_x)
