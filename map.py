@@ -54,8 +54,8 @@ class Map1:
 
         my_font = pygame.font.SysFont('Comic Sans MS', 9)
         for y in range(screen.get_width() * 6):
-            text_surface = my_font.render(str(y), False, (0, 0, 0))
-            screen.blit(text_surface, (y * 16 - player_pos_x, 0))
+            text_surface = my_font.render(str(y * 5), False, (0, 0, 0))
+            screen.blit(text_surface, (y * 5 * 16 - player_pos_x, 0))
 
         for y in range(screen.get_height()):
             text_surface = my_font.render(str(y + 1), False, (0, 0, 0))
