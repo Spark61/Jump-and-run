@@ -37,7 +37,6 @@ class Player(sprite.Sprite):
         self.jump_index = 0
         self.walk = 0
         self.left = True
-        self.already_left = False
 
         self.run_animation_index = 1
 
@@ -46,9 +45,6 @@ class Player(sprite.Sprite):
 
         if x != 0:
             self.left = x < 0
-
-            if not self.left:
-                self.already_left = False
 
     def jump(self):
         if self.jumping:
@@ -59,24 +55,18 @@ class Player(sprite.Sprite):
         self.jump_index = 0
 
     def update_image(self):
-        print(self.left)
-
         if self.walk != 0:
             self.run_animation_index += 1
 
             if self.run_animation_index >= 30:
                 self.run_animation_index = 0
 
-            if self.jumping != -1:
-                pass
-            else:
-                self.image = self.run_textures[self.run_animation_index // 5]
+            self.image = self.run_textures[self.run_animation_index // 5]
 
         else:
             self.image = self.walk_textures[0]
 
-        if self.left and not self.already_left:
-            self.already_left = True
+        if self.left:
             self.image = pygame.transform.flip(self.image, True, False)
 
     def update_position(self, screen):
