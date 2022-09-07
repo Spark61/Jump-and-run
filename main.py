@@ -5,7 +5,7 @@
 
 import pygame
 
-from map import Map1
+from maps.map1 import Map1
 from player import Player
 
 pygame.init()
@@ -22,6 +22,15 @@ player_group.add(player)
 
 maps = [Map1()]
 map_number = 0
+
+won = False
+won_font = pygame.font.SysFont('Comic Sans MS', 40)
+won_text_surface = won_font.render('Du hast Gewonnen!', False, (0, 0, 0))
+
+
+def has_next_map():
+    return len(maps) >= map_number + 1
+
 
 while running:
     for event in pygame.event.get():
@@ -40,12 +49,22 @@ while running:
 
     screen.fill((255, 255, 255))
 
-    map = maps[map_number]
-    player_group.update(screen, map)
+    if won:
+        screen.blit(won_text_surface, (82, 150))
+    else:
+        map = maps[map_number]
+        player_group.update(screen, map)
 
-    map.update(screen, player.posX)
+        if map.is_in_goal(player.posX):
+            if has_next_map():
+                map_number += 1
+                player.reset()
+            else:
+                won = True
 
-    player_group.draw(screen)
+        map.update(screen, player.posX)
+
+        player_group.draw(screen)
 
     pygame.display.update()
     clock.tick(60)

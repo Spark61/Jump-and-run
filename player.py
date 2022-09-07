@@ -66,7 +66,6 @@ class Player(sprite.Sprite):
         self.speed = 10
         self.posX = 200
         self.posY = 400
-        self.posY = 300
 
         self.jumping = False
         self.falling = False
@@ -109,6 +108,21 @@ class Player(sprite.Sprite):
             return False
 
         return not is_rect_stand_on_block(platform_group, under_player_rect)
+
+    def reset(self):
+        self.death = False
+
+        self.speed = 10
+        self.posX = 200
+        self.posY = 400
+
+        self.jumping = False
+        self.falling = False
+        self.jump_index = 0
+        self.walk = 0
+        self.left = True
+
+        self.run_animation_index = 1
 
     def update_image(self):
         if self.walk != 0:
