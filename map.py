@@ -45,5 +45,21 @@ class Map1:
         water_width = water.get_width()
         water_height = screen.get_height() - water.get_height()
 
+        for x in range(screen.get_height() // 16):
+            pygame.draw.line(screen, (0, 0, 0), (0, x * 16), (1000000, x * 16))
+
+        for y in range(player_pos_x + screen.get_width() // 16 + 1):
+            pygame.draw.line(screen, (0, 0, 0), (y * 16 - player_pos_x, 0),
+                             (y * 16 - player_pos_x, 1000))
+
+        my_font = pygame.font.SysFont('Comic Sans MS', 9)
+        for y in range(screen.get_width() * 6):
+            text_surface = my_font.render(str(y), False, (0, 0, 0))
+            screen.blit(text_surface, (y * 16 - player_pos_x, 0))
+
+        for y in range(screen.get_height()):
+            text_surface = my_font.render(str(y + 1), False, (0, 0, 0))
+            screen.blit(text_surface, (5, (y + 1) * 16 + 3))
+
         for i in range(player_pos_x + screen.get_width() // water_width + 1):
             screen.blit(water, (i * water_width - player_pos_x, water_height))
