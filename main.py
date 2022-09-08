@@ -5,6 +5,8 @@
 
 import pygame
 
+from maps.map1 import Map1
+from maps.map2 import Map2
 from maps.map3 import Map3
 from player import Player
 
@@ -20,8 +22,8 @@ player = Player()
 player_group = pygame.sprite.GroupSingle()
 player_group.add(player)
 
-maps = [Map3()]
-map_number = 0
+maps = [Map1(), Map2(), Map3()]
+map_number = 2
 
 won = False
 won_font = pygame.font.SysFont('Comic Sans MS', 40)

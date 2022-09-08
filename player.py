@@ -65,7 +65,7 @@ class Player(sprite.Sprite):
 
         self.speed = 10
         self.posX = 200
-        self.posY = 400
+        self.posY = 350
 
         self.jumping = False
         self.falling = False
@@ -99,12 +99,16 @@ class Player(sprite.Sprite):
         under_player_rect = pygame.Rect(self.rect.x + new_pos_x - 1, self.rect.y + self.rect.height + 2,
                                         self.rect.width - 1, 1)
 
+        pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(self.rect.x + new_pos_x - 1, self.rect.y + self.rect.height,
+                                                        self.rect.width - 1,
+                                                        screen.get_height() - self.rect.y + self.rect.height))
+
         if under_player_rect.colliderect(platform.rect_up):  # wenn er auf einen
             return False
 
-        if not is_collide_top(pygame.Rect(self.rect.x + new_pos_x - 1, 0,
-                                          self.rect.width - 1,
-                                          screen.get_height()), platform):
+        if is_collide_top(pygame.Rect(self.rect.x + new_pos_x - 1, self.rect.y + self.rect.height,
+                                      self.rect.width - 1,
+                                      screen.get_height() - self.rect.y + self.rect.height), platform):
             return False
 
         return not is_rect_stand_on_block(platform_group, under_player_rect)
@@ -145,7 +149,7 @@ class Player(sprite.Sprite):
         rect = pygame.Rect(self.rect.x + new_pos_x - 1, self.rect.y, self.rect.width - 1, self.rect.height)
 
         for platform in map.platform_group:
- 
+
             if is_collide_top(rect, platform) and \
                     not is_collide_left(rect, platform) and \
                     not is_collide_right(rect, platform):  # block oben

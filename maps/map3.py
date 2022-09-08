@@ -65,4 +65,5 @@ class Map3:
             screen.blit(text_surface, (5, (y + 1) * 16 + 3))
 
         for i in range(player_pos_x + screen.get_width() // water_width + 1):
-            screen.blit(water, (i * water_width - player_pos_x, water_height))
+            pass
+            # screen.blit(water, (i * water_width - player_pos_x, water_height))
