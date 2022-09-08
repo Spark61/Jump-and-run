@@ -56,6 +56,9 @@ while running:
         screen.blit(won_text_surface, (82, 150))
     else:
         map = maps[map_number]
+        level_text_surface = font.render('Level ' + str(map_number + 1), False, (0, 0, 0))
+        screen.blit(level_text_surface, (0, 0))
+
         player_group.update(screen, map)
 
         if map.is_in_goal(player):

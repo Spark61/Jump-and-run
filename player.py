@@ -185,7 +185,7 @@ class Player(sprite.Sprite):
                 self.jumping = False
             elif self.falling:
                 self.jump_index -= 1
-            elif self.jump_index >= 40:
+            elif self.jump_index >= 20:
                 self.falling = True
             else:
                 self.jump_index += 1
