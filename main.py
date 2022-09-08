@@ -27,7 +27,7 @@ player_group = pygame.sprite.GroupSingle()
 player_group.add(player)
 
 maps = [Map1(), Map2(), Map3()]
-map_number = 1
+map_number = 0
 
 won = False
 font = pygame.font.SysFont('Comic Sans MS', 40)
