@@ -29,7 +29,7 @@ won_text_surface = won_font.render('Du hast Gewonnen!', False, (0, 0, 0))
 
 
 def has_next_map():
-    return len(maps) >= map_number + 1
+    return len(maps) > (map_number + 1)
 
 
 while running:
@@ -52,6 +52,7 @@ while running:
     if won:
         screen.blit(won_text_surface, (82, 150))
     else:
+        print(map_number)
         map = maps[map_number]
         player_group.update(screen, map)
 

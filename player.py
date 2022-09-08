@@ -145,7 +145,7 @@ class Player(sprite.Sprite):
         rect = pygame.Rect(self.rect.x + new_pos_x - 1, self.rect.y, self.rect.width - 1, self.rect.height)
 
         for platform in map.platform_group:
-
+ 
             if is_collide_top(rect, platform) and \
                     not is_collide_left(rect, platform) and \
                     not is_collide_right(rect, platform):  # block oben

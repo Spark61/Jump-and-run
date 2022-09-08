@@ -23,7 +23,7 @@ class Map1:
                 self.tiles[path.replace(".png", "")] = pygame.transform.scale(pygame.image.load(dir_path + "/" + path),
                                                                               (32, 32))
 
-        self.goal_pos_x = 1000
+        self.goal_pos_x = 100000
 
         self.cam_pos_x = 0
         self.positions = [(1, 28, 400, 1), (50, 26, 50, 3), (70, 18, 17, 3), (99, 25, 20, 4), (96, 16, 12, 5),
