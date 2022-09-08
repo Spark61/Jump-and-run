@@ -7,6 +7,7 @@ import os
 
 import pygame
 
+from mouse import Mouse
 from platform import Platform
 
 
@@ -35,8 +36,12 @@ class Map1:
             x, y, width, height = position
             self.platform_group.add(Platform(x, y, width, height))
 
-    def is_in_goal(self, player_pos_x) -> bool:
-        return player_pos_x >= self.goal_pos_x
+        self.mouse = Mouse(6350, 423)
+        self.mouse_group = pygame.sprite.GroupSingle()
+        self.mouse_group.add(self.mouse)
+
+    def is_in_goal(self, player) -> bool:
+        return player.rect.colliderect(self.mouse.rect)
 
     def update(self, screen, player_pos_x):
         self.cam_pos_x += 1
@@ -47,22 +52,6 @@ class Map1:
         water = self.tiles["waterTop"]
         water_width = water.get_width()
         water_height = screen.get_height() - water.get_height()
-
-        for x in range(screen.get_height() // 16):
-            pygame.draw.line(screen, (0, 0, 0), (0, x * 16), (1000000, x * 16))
-
-        for y in range(player_pos_x + screen.get_width() // 16 + 1):
-            pygame.draw.line(screen, (0, 0, 0), (y * 16 - player_pos_x, 0),
-                             (y * 16 - player_pos_x, 1000))
-
-        my_font = pygame.font.SysFont('Comic Sans MS', 9)
-        for y in range(screen.get_width() * 6):
-            text_surface = my_font.render(str(y * 5), False, (0, 0, 0))
-            screen.blit(text_surface, (y * 5 * 16 - player_pos_x, 0))
-
-        for y in range(screen.get_height()):
-            text_surface = my_font.render(str(y + 1), False, (0, 0, 0))
-            screen.blit(text_surface, (5, (y + 1) * 16 + 3))
 
         for i in range(player_pos_x + screen.get_width() // water_width + 1):
             screen.blit(water, (i * water_width - player_pos_x, water_height))

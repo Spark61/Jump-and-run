@@ -142,12 +142,14 @@ class Platform(sprite.Sprite):
 
     def update_rects(self, cam_pos_x):
         self.rect = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.full_width, self.full_height)
+        self.rect2 = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.full_width, self.full_height - 6)
 
-        self.rect_up = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.full_width, 1)
-        self.rect_up_upper = pygame.Rect(self.start_x - cam_pos_x, self.start_y - 5, self.full_width, 10)
+        self.rect_up = pygame.Rect(self.start_x - cam_pos_x, self.start_y + 1, self.full_width, 1)
+        self.rect_up_upper = pygame.Rect(self.start_x - cam_pos_x, self.start_y, self.full_width, 10)
         self.rect_down = pygame.Rect(self.start_x - cam_pos_x, self.start_y + self.full_height - 1, self.full_width, 1)
-        self.rect_left = pygame.Rect(self.start_x - 1 - cam_pos_x, self.start_y, 2, self.full_height)
-        self.rect_right = pygame.Rect(self.start_x + self.full_width - 1 - cam_pos_x, self.start_y, 1, self.full_height)
+        self.rect_left = pygame.Rect(self.start_x - 1 - cam_pos_x, self.start_y + 5, 2, self.full_height - 10)
+        self.rect_right = pygame.Rect(self.start_x + self.full_width - 1 - cam_pos_x, self.start_y + 5, 1,
+                                      self.full_height - 10)
 
     def draw_blocks(self, screen, cam_pos_x):
         for block in self.blocks:

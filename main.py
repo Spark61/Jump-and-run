@@ -23,11 +23,12 @@ player_group = pygame.sprite.GroupSingle()
 player_group.add(player)
 
 maps = [Map1(), Map2(), Map3()]
-map_number = 2
+map_number = 1
 
 won = False
-won_font = pygame.font.SysFont('Comic Sans MS', 40)
-won_text_surface = won_font.render('Du hast Gewonnen!', False, (0, 0, 0))
+font = pygame.font.SysFont('Comic Sans MS', 40)
+won_text_surface = font.render('Du hast Gewonnen!', False, (0, 0, 0))
+lose_text_surface = font.render('Du bist gestorben!', False, (0, 0, 0))
 
 
 def has_next_map():
@@ -54,11 +55,10 @@ while running:
     if won:
         screen.blit(won_text_surface, (82, 150))
     else:
-        print(map_number)
         map = maps[map_number]
         player_group.update(screen, map)
 
-        if map.is_in_goal(player.posX):
+        if map.is_in_goal(player):
             if has_next_map():
                 map_number += 1
                 player.reset()
@@ -68,6 +68,13 @@ while running:
         map.update(screen, player.posX)
 
         player_group.draw(screen)
+
+        map.mouse_group.update(player.posX)
+        map.mouse_group.draw(screen)
+        print(map.mouse.rect)
+
+        if player.death:
+            screen.blit(lose_text_surface, (82, 150))
 
     pygame.display.update()
     clock.tick(60)

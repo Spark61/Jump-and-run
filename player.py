@@ -103,7 +103,7 @@ class Player(sprite.Sprite):
                                                         self.rect.width - 1,
                                                         screen.get_height() - self.rect.y + self.rect.height))
 
-        if under_player_rect.colliderect(platform.rect_up):  # wenn er auf einen
+        if under_player_rect.colliderect(platform.rect_up):
             return False
 
         if is_collide_top(pygame.Rect(self.rect.x + new_pos_x - 1, self.rect.y + self.rect.height,
@@ -118,7 +118,7 @@ class Player(sprite.Sprite):
 
         self.speed = 10
         self.posX = 200
-        self.posY = 400
+        self.posY = 310
 
         self.jumping = False
         self.falling = False
@@ -164,7 +164,7 @@ class Player(sprite.Sprite):
             if is_collide_down(rect, platform):  # unten block
                 self.falling = True
 
-            if is_collide_left(rect, platform) and not is_collide_down(rect, platform):  # links blockd
+            if is_collide_left(rect, platform) and not is_collide_down(rect, platform):  # links block
                 new_pos_x = platform.rect_left.x - (self.rect.x + self.rect.width)
 
             if is_collide_right(rect, platform) and not is_collide_down(rect, platform):  # rechts block
@@ -185,7 +185,7 @@ class Player(sprite.Sprite):
                 self.jumping = False
             elif self.falling:
                 self.jump_index -= 1
-            elif self.jump_index >= 20:
+            elif self.jump_index >= 40:
                 self.falling = True
             else:
                 self.jump_index += 1
@@ -195,17 +195,13 @@ class Player(sprite.Sprite):
             self.rect.y = self.posY
 
     def test_death(self, screen):
-        if self.rect.y >= screen.get_height() - 0:
+        if self.rect.y + self.rect.height >= screen.get_height() - 16:
+            self.rect.y = screen.get_height()
             self.death = True
 
     def update(self, screen, map):
-        if self.death:
-            my_font = pygame.font.SysFont('Comic Sans MS', 40)
-            text_surface = my_font.render('Du bist gestorben', False, (0, 0, 0))
-
-            screen.blit(text_surface, (82, 150))
-
-        else:
+        print(self.rect.x, self.rect.y, self.posX)
+        if not self.death:
             self.update_position(screen, map)
             self.test_death(screen)
             self.update_image()
