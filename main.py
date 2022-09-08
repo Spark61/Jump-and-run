@@ -75,7 +75,6 @@ while running:
         map.update(screen, player.posX)
 
         for enemy in map.enemy_group:
-            print(enemy.rect_front.x)
             if enemy.rect_front.colliderect(player.rect):
                 player.death = True
             elif enemy.rect_top.colliderect(player.rect):
@@ -88,12 +87,11 @@ while running:
 
         map.mouse_group.update(player.posX)
         map.mouse_group.draw(screen)
-        print(map.mouse.rect)
 
         if player.death:
             screen.blit(lose_text_surface, (82, 150))
 
     pygame.display.update()
-    clock.tick(60)
+    clock.tick(60 * 5)
 
 pygame.quit()

@@ -70,7 +70,7 @@ class Player(sprite.Sprite):
 
         self.death = False
 
-        self.speed = 10
+        self.speed = 2
         self.posX = 200
         self.posY = 300
 
@@ -119,7 +119,7 @@ class Player(sprite.Sprite):
     def reset(self):
         self.death = False
 
-        self.speed = 10
+        self.speed = 2
         self.posX = 200
         self.posY = 310
 
@@ -133,12 +133,15 @@ class Player(sprite.Sprite):
 
     def update_image(self):
         if self.walk != 0:
-            self.run_animation_index += 1
+            self.run_animation_index += 0.3
 
             if self.run_animation_index >= 30:
                 self.run_animation_index = 0
 
-            self.image = self.run_textures[self.run_animation_index // 5]
+            print(self.run_animation_index)
+            print(int(self.run_animation_index) // 3)
+            self.image = self.run_textures[int(self.run_animation_index) // 10]
+            print(self.image)
 
         else:
             self.image = self.walk_textures[0]
@@ -162,7 +165,7 @@ class Player(sprite.Sprite):
 
             elif self.is_gravity_active(screen, platform, map.platform_group,
                                         new_pos_x):  # springt nicht, ist aber auch auf keinen block drauf
-                self.posY += 5
+                self.posY += 1
 
             if is_collide_down(rect, platform):  # unten block
                 self.falling = True
@@ -174,7 +177,7 @@ class Player(sprite.Sprite):
                 new_pos_x = platform.rect_right.x - self.rect.x
 
         if is_above_water(screen, rect, map.platform_group):
-            self.posY += 5
+            self.posY += 1
 
         self.posX += new_pos_x
         if self.posX <= 0:
@@ -187,11 +190,11 @@ class Player(sprite.Sprite):
                 self.falling = False
                 self.jumping = False
             elif self.falling:
-                self.jump_index -= 1
+                self.jump_index -= 0.2
             elif self.jump_index >= 20:
                 self.falling = True
             else:
-                self.jump_index += 1
+                self.jump_index += 0.2
 
             self.rect.y = self.posY + -self.jump_index * 10
         else:
@@ -203,7 +206,6 @@ class Player(sprite.Sprite):
             self.death = True
 
     def update(self, screen, map):
-        print(self.rect.x, self.rect.y, self.posX)
         if not self.death:
             self.update_position(screen, map)
             self.test_death(screen)

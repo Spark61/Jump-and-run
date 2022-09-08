@@ -48,15 +48,15 @@ class Enemy(pygame.sprite.Sprite):
             self.current_step = self.max_step
         self.animation_index += 1
 
-        self.current_step += self.direction
+        self.current_step += self.direction * 0.4
 
         if self.animation_index >= 35:
             self.animation_index = 0
 
         if self.direction > 0:
-            self.image = self.animation[self.animation_index // 5]
+            self.image = self.animation[self.animation_index // 50]
         else:
-            self.image = pygame.transform.flip(self.animation[self.animation_index // 5], True, False)
+            self.image = pygame.transform.flip(self.animation[self.animation_index // 50], True, False)
 
         self.rect.x = self.posX - player_pos_x + self.current_step
         self.rect_front = pygame.Rect(self.rect.x, self.rect.y + 10, self.rect.width, self.rect.height)
