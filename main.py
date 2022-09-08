@@ -14,6 +14,8 @@ pygame.init()
 
 screen = pygame.display.set_mode((500, 500))
 pygame.display.set_caption("Jump and Run")
+icon = pygame.image.load("img/cat.png").convert_alpha()
+pygame.display.set_icon(icon)
 
 running = True
 clock = pygame.time.Clock()
@@ -69,6 +71,16 @@ while running:
                 won = True
 
         map.update(screen, player.posX)
+
+        for enemy in map.enemy_group:
+            print(enemy.rect_front.x)
+            if enemy.rect_front.colliderect(player.rect):
+                player.death = True
+            elif enemy.rect_top.colliderect(player.rect):
+                pygame.sprite.spritecollide(player, map.enemy_group, True)
+                player.jumping = True
+                player.falling = False
+                player.jump_index = 3
 
         player_group.draw(screen)
 

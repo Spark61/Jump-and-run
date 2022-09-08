@@ -65,7 +65,7 @@ class Player(sprite.Sprite):
 
         self.speed = 10
         self.posX = 200
-        self.posY = 350
+        self.posY = 300
 
         self.jumping = False
         self.falling = False
@@ -98,10 +98,6 @@ class Player(sprite.Sprite):
 
         under_player_rect = pygame.Rect(self.rect.x + new_pos_x - 1, self.rect.y + self.rect.height + 2,
                                         self.rect.width - 1, 1)
-
-        pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(self.rect.x + new_pos_x - 1, self.rect.y + self.rect.height,
-                                                        self.rect.width - 1,
-                                                        screen.get_height() - self.rect.y + self.rect.height))
 
         if under_player_rect.colliderect(platform.rect_up):
             return False
