@@ -1,7 +1,9 @@
-# Dateiname: main.py
-# Version: 1.0
-# Bearbeiter: Jan Fischer
-# Datum: 05.09.2022
+# -------------------------------------------------------------------------------
+# Name:        enemy.py
+# Author:      Jan Fischer, David Gürschke, Nico Hennig
+# Created:     07.09.2022
+# Copyright:   Fischer, Gürschke, Hennig 2022
+# -------------------------------------------------------------------------------
 
 import pygame
 
