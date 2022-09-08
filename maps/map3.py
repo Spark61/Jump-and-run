@@ -43,7 +43,7 @@ class Map3:
         self.mouse_group.add(self.mouse)
 
         self.enemy_group = pygame.sprite.Group()
-        self.enemy_group.add(Enemy(350, 425))
+        self.enemy_group.add(Enemy(2313, 305))
 
     def is_in_goal(self, player) -> bool:
         return player.rect.colliderect(self.mouse.rect)
