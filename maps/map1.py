@@ -26,8 +26,9 @@ class Map1:
         self.goal_pos_x = 100000
 
         self.cam_pos_x = 0
-        self.positions = [(1, 28, 400, 1), (50, 26, 50, 3), (70, 18, 17, 3), (99, 25, 20, 4), (96, 16, 12, 5),
+        self.positions = [(1, 28, 400, 1), (50, 26, 50, 3), (70, 18, 17, 3), (99, 25, 20, 4), (96, 14, 12, 5),
                           (118, 10, 7, 19), (123, 18, 88, 11), (283, 18, 88, 11), (258, 21, 30, 7)]
+
         self.platform_group = pygame.sprite.Group()
 
         for position in self.positions:

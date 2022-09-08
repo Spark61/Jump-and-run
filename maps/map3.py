@@ -23,11 +23,12 @@ class Map3:
                 self.tiles[path.replace(".png", "")] = pygame.transform.scale(pygame.image.load(dir_path + "/" + path),
                                                                               (32, 32))
 
-        self.goal_pos_x = 1000
+        self.goal_pos_x = 100000
 
         self.cam_pos_x = 0
-        self.positions = [(1, 28, 400, 1), (50, 26, 50, 3), (70, 18, 17, 3), (99, 25, 20, 4), (96, 16, 12, 5),
-                          (118, 10, 7, 19), (123, 18, 88, 11), (283, 18, 88, 11), (258, 21, 30, 7)]
+        self.positions = [(1, 28, 85, 2), (1, 1, 40, 20), (40, 1, 3, 22), (42, 1, 20, 24), (61, 1, 10, 15),
+                          (70, 1, 11, 24), (80, 1, 40, 15), (100, 28, 28, 2), (105, 1, 20, 24), (200, 10, 20, 18),
+                          (135, 22, 5, 2), (145, 20, 7, 4), (160, 18, 18, 5), (180, 14, 8, 2)]  ##Map3
         self.platform_group = pygame.sprite.Group()
 
         for position in self.positions:

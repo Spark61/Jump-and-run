@@ -5,7 +5,7 @@
 
 import pygame
 
-from maps.map1 import Map1
+from maps.map3 import Map3
 from player import Player
 
 pygame.init()
@@ -20,7 +20,7 @@ player = Player()
 player_group = pygame.sprite.GroupSingle()
 player_group.add(player)
 
-maps = [Map1()]
+maps = [Map3()]
 map_number = 0
 
 won = False
