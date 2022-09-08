@@ -91,53 +91,53 @@ class Platform(sprite.Sprite):
         if is_small_island(height):
             for x in range(width):
                 if is_left(x):
-                    title = "floatingLeft"
+                    tile = "floatingLeft"
 
                 elif is_right(x, width):
-                    title = "floatingRight"
+                    tile = "floatingRight"
 
                 else:
-                    title = "floatingMiddle"
+                    tile = "floatingMiddle"
 
                 self.blocks.append([
                     self.start_x + self.texture_width * x,
                     self.start_y,
-                    self.tiles[title]
+                    self.tiles[tile]
                 ])
         else:
             for x in range(width):
                 for y in range(height):
                     if is_left_up(x, y):
-                        title = "wallTopLeft"
+                        tile = "wallTopLeft"
 
                     elif is_right_up(x, y, width):
-                        title = "wallTopRight"
+                        tile = "wallTopRight"
 
                     elif is_left_down(x, y, height):
-                        title = "bottomCornerLeft"
+                        tile = "bottomCornerLeft"
 
                     elif is_left(x):
-                        title = "wallLeft"
+                        tile = "wallLeft"
 
                     elif is_right_down(x, y, width, height):
-                        title = "bottomCornerRight"
+                        tile = "bottomCornerRight"
 
                     elif is_right(x, width):
-                        title = "wallRight"
+                        tile = "wallRight"
 
                     elif is_down(y, height):
-                        title = "bottomMiddle"
+                        tile = "bottomMiddle"
 
                     elif is_up(y):
-                        title = "wallTopMiddle"
+                        tile = "wallTopMiddle"
 
                     else:
-                        title = "wallMiddle"
+                        tile = "wallMiddle"
 
                     self.blocks.append([
                         self.start_x + self.texture_width * x,
                         self.start_y + self.texture_height * y,
-                        self.tiles[title]
+                        self.tiles[tile]
                     ])
 
     def update_rects(self, cam_pos_x):
