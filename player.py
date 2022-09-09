@@ -138,10 +138,7 @@ class Player(sprite.Sprite):
             if self.run_animation_index >= 30:
                 self.run_animation_index = 0
 
-            print(self.run_animation_index)
-            print(int(self.run_animation_index) // 3)
             self.image = self.run_textures[int(self.run_animation_index) // 10]
-            print(self.image)
 
         else:
             self.image = self.walk_textures[0]
