@@ -38,7 +38,7 @@ class Mouse(sprite.Sprite):
         if self.idle_animation_index >= 20:
             self.idle_animation_index = 0
 
-        self.image = self.idle_textures[(self.idle_animation_index // 100)]
+        self.image = self.idle_textures[(self.idle_animation_index // 10)]
 
     def update_position(self, player_pos_x):
         self.rect.x = self.pos_x - player_pos_x
